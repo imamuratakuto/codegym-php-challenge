@@ -64,6 +64,16 @@ function getTweets()
 }
 
 /* 返信課題はここからのコードを修正しましょう。 */
-
+function getTweet($id) 
+{
+    $sql = 'select t.id, t.text, t.user_id, t.created_at, t.updated_at, u.name';
+    $sql .= ' from tweets t join users u on t.user_id = u.id';
+    $sql .= ' where t.id = :id';
+    $stmt = getPdo()->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt[0];
+}
 
 /* 返信課題はここからのコードを修正しましょう。 */
