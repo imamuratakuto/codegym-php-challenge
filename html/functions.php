@@ -76,4 +76,10 @@ function getTweet($id)
     return $stmt[0];
 }
 
+function getReply_id($id){
+    $sql = 'insert into tweets (reply_id) values (:id)';
+    $stmt = getPdo()->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
 /* 返信課題はここからのコードを修正しましょう。 */

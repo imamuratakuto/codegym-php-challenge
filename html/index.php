@@ -42,6 +42,9 @@ if ($_POST) { /* POST Requests */
 $tweets = getTweets();
 $tweet_count = count($tweets);
 /* 返信課題はここからのコードを修正しましょう。 */
+$t = getTweet($_GET['id']);
+if ()
+getReply_id($_GET['id']);
 /* 返信課題はここからのコードを修正しましょう。 */
 ?>
 
@@ -56,7 +59,7 @@ $tweet_count = count($tweets);
     <div class="card mb-3">
       <div class="card-body">
         <form method="POST">
-          <textarea class="form-control" type=textarea name="tweet_textarea" ?><!-- 返信課題はここを修正しましょう。 --></textarea>
+          <textarea class="form-control" type=textarea name="tweet_textarea"><?php if ($_GET['id']) { echo 'RE: @' . $t['name']; } ?></textarea>
           <!-- 返信課題はここからのコードを修正しましょう。 -->
           <!-- 返信課題はここからのコードを修正しましょう。 -->
           <br>
@@ -71,6 +74,7 @@ $tweet_count = count($tweets);
           <p class="card-title"><b><?= "{$t['id']}" ?></b> <?= "{$t['name']}" ?> <small><?= "{$t['updated_at']}" ?></small></p>
           <p class="card-text"><?= "{$t['text']}" ?></p>
           <!--返信課題はここから修正しましょう。-->
+          <p><a href = "/index.php?id=<?= "{$t['id']}" ?>">[返信する]</a></p>
           <?php if (isset($t['reply_id'])) { ?>
           <p>[返信する] <a href="/view.php?id=<?= "{$t['reply_id']}" ?>">[返信元のメッセージ]</a></p>
           <?php } ?>
