@@ -21,7 +21,7 @@ $t = getTweet($_GET['id']);
     <div class="card mb-3">
       <div class="card-body">
         <!-- 返信課題はここからのコードを修正しましょう。 -->
-          <p class="card-title"><b><?= "{$t['id']}" ?></b> <?= "{$t['name']}" ?><small><?= "{$t['updated_at']}" ?></small></p>
+          <p class="card-title"><b><?= "{$t['id']}" ?></b> <?= "{$t['name']}" ?><small> <?= "{$t['updated_at']}" ?></small></p>
           <p class="card-text"><?= "{$t['text']}" ?></p>
         <!-- 返信課題はここまでのコードを修正しましょう。 -->
       </div>

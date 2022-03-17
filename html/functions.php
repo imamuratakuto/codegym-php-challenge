@@ -82,7 +82,7 @@ function getUserName($post_id) {
 }
 
 function getUserReplyText($post_id) {
-    return "Re: @" . getUserName($post_id) . ' ';
+    return "Re: @" . getUserName($post_id) . " ";
 }
 
 function replyTweet($text, $reply_id, $user_id)
