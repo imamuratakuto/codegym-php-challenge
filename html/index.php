@@ -46,7 +46,7 @@ $tweets = getTweets();
 $tweet_count = count($tweets);
 /* 返信課題はここからのコードを修正しましょう。 */
 function newReplyTweet($tweet_textarea, $reply_id) {
-    replyTweet($tweet_textarea, $reply_id, $_SESSION['user_id']);
+    createReplyTweet($tweet_textarea, $reply_id, $_SESSION['user_id']);
 }
 /* 返信課題はここからのコードを修正しましょう。 */
 ?>
@@ -65,7 +65,7 @@ function newReplyTweet($tweet_textarea, $reply_id) {
           <textarea class="form-control" type=textarea name="tweet_textarea"><?php if (isset($_GET['reply'])) { echo getUserReplyText($_GET['reply']); } ?></textarea>
           <!-- 返信課題はここからのコードを修正しましょう。 -->
           <?php if (isset($_GET['reply'])) { ?>
-          <input type="hidden" name="reply_post_id" value="<?= $_REQUEST['reply'] ?>" />
+          <input type="hidden" name="reply_post_id" value="<?= $_GET['reply'] ?>" />
           <?php } ?>
           <!-- 返信課題はここからのコードを修正しましょう。 -->
           <br>

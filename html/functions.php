@@ -85,7 +85,7 @@ function getUserReplyText($post_id) {
     return "Re: @" . getUserName($post_id) . " ";
 }
 
-function replyTweet($text, $reply_id, $user_id)
+function createReplyTweet($text, $reply_id, $user_id)
 {
     $sql = 'insert into tweets (text, user_id, created_at, updated_at, reply_id)';
     $sql .= ' values (:text, :user_id, :created_at, :updated_at, :reply_id)';
