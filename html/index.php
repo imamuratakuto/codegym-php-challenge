@@ -32,16 +32,22 @@ function logout()
 if ($_POST) { /* POST Requests */
     if (isset($_POST['logout'])) { //ログアウト処理
         logout();
-        header("Location: login.php");
     } else if (isset($_POST['tweet_textarea'])) { //投稿処理
-        newtweet($_POST['tweet_textarea']);
-        header("Location: index.php");
+        if (isset($_POST['reply_post_id'])) {
+            newReplyTweet($_POST['tweet_textarea'], $_POST['reply_post_id']);
+        } else {
+            newtweet($_POST['tweet_textarea']);
+        }
     }
+    header("Location: index.php");
 }
 
 $tweets = getTweets();
 $tweet_count = count($tweets);
 /* 返信課題はここからのコードを修正しましょう。 */
+function newReplyTweet($tweet_textarea, $reply_id) {
+    createReplyTweet($tweet_textarea, $reply_id, $_SESSION['user_id']);
+}
 /* 返信課題はここからのコードを修正しましょう。 */
 ?>
 
@@ -56,8 +62,11 @@ $tweet_count = count($tweets);
     <div class="card mb-3">
       <div class="card-body">
         <form method="POST">
-          <textarea class="form-control" type=textarea name="tweet_textarea" ?><!-- 返信課題はここを修正しましょう。 --></textarea>
+          <textarea class="form-control" type=textarea name="tweet_textarea"><?php if (isset($_GET['reply'])) { echo getUserReplyText($_GET['reply']); } ?></textarea>
           <!-- 返信課題はここからのコードを修正しましょう。 -->
+          <?php if (isset($_GET['reply'])) { ?>
+          <input type="hidden" name="reply_post_id" value="<?= $_GET['reply'] ?>" />
+          <?php } ?>
           <!-- 返信課題はここからのコードを修正しましょう。 -->
           <br>
           <input class="btn btn-primary" type=submit value="投稿">
@@ -71,8 +80,9 @@ $tweet_count = count($tweets);
           <p class="card-title"><b><?= "{$t['id']}" ?></b> <?= "{$t['name']}" ?> <small><?= "{$t['updated_at']}" ?></small></p>
           <p class="card-text"><?= "{$t['text']}" ?></p>
           <!--返信課題はここから修正しましょう。-->
+          <p><a href = "/index.php?reply=<?= "{$t['id']}" ?>">[返信する]</a>
           <?php if (isset($t['reply_id'])) { ?>
-          <p>[返信する] <a href="view.php?id=<?= "{$t['reply_id']}" ?>">[返信元のメッセージ]</a></p>
+           <a href="/view.php?id=<?= "{$t['reply_id']}" ?>">[返信元のメッセージ]</a></p>
           <?php } ?>
           <!--返信課題はここまで修正しましょう。-->
         </div>
