@@ -98,4 +98,53 @@ function createReplyTweet($text, $reply_id, $user_id)
     $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
     return $stmt->execute();
 }
+
+function insertMyFavorite($favorite_id, $user_id)
+{
+    $sql = 'insert into favorites (member_id, post_id, created_at, updated_at)';
+    $sql .= ' values (:member_id, :post_id, :created_at, :updated_at)';
+    $now = date("Y-m-d H:i:s");
+    $stmt = getPdo()->prepare($sql);
+    $stmt->bindValue(':member_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':post_id', $favorite_id, PDO::PARAM_INT);
+    $stmt->bindValue(':created_at', $now, PDO::PARAM_STR);
+    $stmt->bindValue(':updated_at', $now, PDO::PARAM_STR);
+    $stmt->execute();
+}
+
+function deleteMyFavorite($favorite_id, $user_id)
+{
+    $sql = 'delete from favorites where member_id = :member_id AND post_id = :post_id';
+    $stmt = getPdo()->prepare($sql);
+    $stmt->bindValue(':member_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':post_id', $favorite_id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+function isMyFavorite($favorite_id, $user_id)
+{
+    $sql = 'select count(*) AS myfavo';
+    $sql .= ' from favorites where member_id = :member_id AND post_id = :post_id';
+    $stmt = getPdo()->prepare($sql);
+    $stmt->bindValue(':member_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':post_id', $favorite_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($stmt[0]['myfavo'] === 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function countFavorite($favorite_id)
+{
+    $sql = 'select count(*) AS favo';
+    $sql .= ' from favorites where post_id = :post_id';
+    $stmt = getPdo()->prepare($sql);
+    $stmt->bindValue(':post_id', $favorite_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt[0]['favo'];
+}
 /* 返信課題はここからのコードを修正しましょう。 */
