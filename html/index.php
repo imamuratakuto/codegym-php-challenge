@@ -45,12 +45,12 @@ if ($_POST) { /* POST Requests */
 if ($_GET) {
     if (isset($_GET['favorite'])) {
         if (isMyFavorite($_GET['favorite'], $_SESSION['user_id'])) {
-        deleteMyFavorite($_GET['favorite'], $_SESSION['user_id']);
-      } else {
-        insertMyFavorite($_GET['favorite'], $_SESSION['user_id']);
+            deleteMyFavorite($_GET['favorite'], $_SESSION['user_id']);
+        } else {
+            insertMyFavorite($_GET['favorite'], $_SESSION['user_id']);
+        }
+        header("Location: index.php");
     }
-  }
-  header("Location: index.php");
 }
 
 $tweets = getTweets();
@@ -91,18 +91,21 @@ function newReplyTweet($tweet_textarea, $reply_id) {
           <p class="card-title"><b><?= "{$t['id']}" ?></b> <?= "{$t['name']}" ?> <small><?= "{$t['updated_at']}" ?></small></p>
           <p class="card-text"><?= "{$t['text']}" ?></p>
           <!--返信課題はここから修正しましょう。-->
-          <p><a href = "/index.php?reply=<?= "{$t['id']}" ?>">[返信する]</a>
-          <?php if (isset($t['reply_id'])) { ?>
-            <a href="/view.php?id=<?= "{$t['reply_id']}" ?>">[返信元のメッセージ]</a></p>
-          <?php } ?>
           <?php if (isMyFavorite($t['id'], $_SESSION['user_id'])) { ?>
             <a href="/index.php?favorite=<?= "{$t['id']}" ?>"><img class="favorite-image" src='/images/heart-solid-red.svg'></a>
           <?php } else { ?>
             <a href="/index.php?favorite=<?= "{$t['id']}" ?>"><img class="favorite-image" src='/images/heart-solid-gray.svg'></a>
           <?php } ?>
-          <?php if (countFavorite($t['id']) > 0) {
-                    echo countFavorite($t['id']);
-                } ?>
+          <?php
+          $cnt = countFavorite($t['id']);
+          if ($cnt) {
+            echo $cnt;
+          }
+          ?>
+          <p><a href = "/index.php?reply=<?= "{$t['id']}" ?>">[返信する]</a>
+          <?php if (isset($t['reply_id'])) { ?>
+            <a href="/view.php?id=<?= "{$t['reply_id']}" ?>">[返信元のメッセージ]</a></p>
+          <?php } ?>
           <!--返信課題はここまで修正しましょう。-->
         </div>
       </div>
